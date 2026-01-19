@@ -39,8 +39,9 @@ public class NitroRedeemer extends NitroListener  {
             }
             String minecraftUsername = messageOption.getAsString();
             WebUtils.getUUID(minecraftUsername).thenAcceptAsync(uuid -> {
+                System.out.println(uuid + "check here");
                 if (uuid == null) {
-                    event.reply(":warning: Unable to find UUID for user").setEphemeral(true).queue();
+                    event.reply(":warning: Unable to find UUID for provided Minecraft username!").setEphemeral(true).setEphemeral(true).queue();
                     return;
                 }
                 NitroUser nitro = config.addNitro(discordUsername, discordID, minecraftUsername, uuid);

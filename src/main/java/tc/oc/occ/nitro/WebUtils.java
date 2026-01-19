@@ -21,7 +21,9 @@ public class WebUtils {
     return getProfile(input)
         .thenApplyAsync(
             profile -> {
+                if (profile == null) return null;
               String uuid = profile.get("uuid").getAsString();
+              System.out.print(uuid + "another here");
               return UUID.fromString(uuid);
             });
   }
