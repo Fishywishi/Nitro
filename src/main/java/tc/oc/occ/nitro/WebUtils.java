@@ -23,7 +23,6 @@ public class WebUtils {
             profile -> {
                 if (profile == null) return null;
               String uuid = profile.get("uuid").getAsString();
-              System.out.print(uuid + "another here");
               return UUID.fromString(uuid);
             });
   }
