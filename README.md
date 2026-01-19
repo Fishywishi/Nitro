@@ -7,11 +7,11 @@ This plugin was originally created for use on [Overcast Community](https://oc.tc
 
 ## Features and functionality
 
-- Using `!nitro help` will show the user a list of available commands.
+- Using `/help` will show the user a list of available commands.
 
-- Nitro Boosting privileges can be claimed or redeemed by users to the Minecraft account/player of their choice. To do this, simply instruct the user to enter `!nitro-redeem <minecraft username>` into the designated redemption channel (specified in `config.yml` through `channel-main`).
+- Nitro Boosting privileges can be claimed or redeemed by users to the Minecraft account/player of their choice. To do this, simply instruct the user to enter `/redeem <minecraft username>` into the designated redemption channel (specified in `config.yml` through `channel-main`).
 
-- Users may also remove their own privileges by using `!nitro-remove`.
+- Users may also remove their own privileges by using `/remove`.
 
 - When the user does redeem Nitro privileges, the plugin will execute, through the console, the commands present in `redemption-commands`. A similar process will take place once the user stops boosting the server or loses the "boosting" role (meaning the removal commands will be executed).
 
@@ -52,17 +52,11 @@ nitro-boosters:
 
 A number of commands are only available to staff in the configured staff channel of the configuration (`channel-staff`).
 
-- `!nitro-list <boosters|bans|commands>`
+- `/list <boosters|bans|commands>`
   - `boosters`: Lists all Nitro boosters that have redeemed Nitro privileges.
-  - `bans`: Lists all users that have been banned from redeemed Nitro privileges.
   - `commands`: Lists the redemption and removal commands present in the configuration.
-- `!nitro-force-remove`: Forcefully removes an active Nitro booster from the `nitro-boosters` list in the configuration. This command will execute the available removal commands for the targeted user.
-- `!nitro-ban <discriminated username> <discord id>`: Bans a user from redeeming Nitro privileges.
-  - Banning a user will prevent them from using `!nitro-redeem` or `!nitro-remove` again until they are unbanned.
-  - If the user was present in the `nitro-boosters` list, they will also be removed from it and removal commands will be executed.
-- `!nitro-unban <discriminated username> <discord id>`: Unbans a user from redeeming Nitro privileges.
-  - Unbanning a user will allow them to use `!nitro-redeem` or `!nitro-remove` again.
-- `!nitro-reload`: Reloads the configuration file.
+- `/force-remove`: Forcefully removes an active Nitro booster from the `nitro-boosters` list in the configuration. This command will execute the available removal commands for the targeted user.
+- `!config-reload`: Reloads the configuration file.
 ## Building
 
 1. First, [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) or download the project's source code.
@@ -122,13 +116,7 @@ removal-commands:
 
 # List of nitro boosters
 # Format
-# Discriminated Discord username : User Discord ID : Minecraft username : Minecraft username
+# Discord username : User Discord ID : Minecraft username : Minecraft username
 nitro-boosters:
-  - ""
-
-# List of users banned from redemption privileges
-# Format
-# Discriminated Discord username : User Discord ID
-banned-boosters:
   - ""
 ```

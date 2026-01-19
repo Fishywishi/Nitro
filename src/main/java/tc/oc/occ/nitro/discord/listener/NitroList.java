@@ -23,12 +23,12 @@ public class NitroList extends NitroListener  {
         EmbedBuilder boostersList = new EmbedBuilder()
                 .setTitle("Nitro Boosters")
                 .setDescription("List of active Nitro boosters found in the configuration file.")
-                .addField("Format", "`discriminated user:discord id:minecraft username`", false);
+                .addField("Format", "`discord username:discord id:minecraft username`", false);
         EmbedBuilder commandsList = new EmbedBuilder()
                 .setTitle("Nitro redemption/removal commands")
                 .setDescription("List of redemption/removal commands found in the configuration file.");
         if (event.getName().equals("list")) {
-            if (event.getChannelId() != config.getStaffChannel()) {
+            if (!event.getChannelId().equals(config.getStaffChannel())) {
                 event.reply(":warning: Run this command in staff channel!").queue();
             }
             OptionMapping optionMapping = event.getOption("list");
@@ -75,92 +75,4 @@ public class NitroList extends NitroListener  {
           event.replyChoices(options).queue();
       }
     }
-
-//    @Override
-//    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-//        EmbedBuilder boostersList = new EmbedBuilder()
-//                .setTitle("Nitro Boosters")
-//                .setDescription("List of active Nitro boosters found in the configuration file.")
-//                .addField("Format", "`discriminated user:discord id:minecraft username`", false)
-//                .setFooter("Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl());
-//        EmbedBuilder bansList = new EmbedBuilder()
-//                        .setTitle("Nitro banned users")
-//                        .setDescription("List of banned users found in the configuration file.")
-//                        .addField("Format", "`discriminated user:discord id`", false)
-//                        .setFooter("Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl());
-//
-//        EmbedBuilder commandsList = new EmbedBuilder()
-//                        .setTitle("Nitro redemption/removal commands")
-//                        .setDescription("List of redemption/removal commands found in the configuration file.")
-//                        .setFooter("Requested by " + event.getAuthor().getName(), event.getAuthor().getAvatarUrl());
-//
-//        if (event.getChannel().getId().equals(config.getStaffChannel())) {
-//            if (event.getMessage().getContentDisplay().startsWith("!nitro-list")) {
-//                String[] parts = event.getMessage().getContentDisplay().split(" ");
-//                if (parts.length == 2) {
-//                    if (parts[1].equalsIgnoreCase("boosters")) {
-//                        if (config.getUsers().isEmpty()) {
-//                            boostersList.addField("Boosters", "_No nitro boosters found_", false);
-//                        } else {
-//                            boostersList.addField(
-//                                    "Boosters",
-//                                    config.getUsers().stream()
-//                                            .map(
-//                                                    user ->
-//                                                            "`- "
-//                                                                    + user.getDiscordUsername()
-//                                                                    + ":"
-//                                                                    + user.getDiscordId()
-//                                                                    + ":"
-//                                                                    + user.getMinecraftUsername()
-//                                                                    + "`")
-//                                            .collect(Collectors.joining("\n")), false);
-//                        }
-//                        event.getChannel().sendMessageEmbeds(boostersList.build()).queue();
-//                    } else if (parts[1].equalsIgnoreCase("bans")) {
-//                        if (config.getBannedUsers().isEmpty()) {
-//                            bansList.addField("Banned users", "_No banned users found_", false);
-//                        } else {
-//                            bansList.addField(
-//                                    "Banned users",
-//                                    config.getBannedUsers().stream()
-//                                            .map(
-//                                                    user ->
-//                                                            "`- "
-//                                                                    + user.getDiscordUsername()
-//                                                                    + ":"
-//                                                                    + user.getDiscordId()
-//                                                                    + "`")
-//                                            .collect(Collectors.joining("\n")), false);
-//                        }
-//                        event.getChannel().sendMessageEmbeds(bansList.build()).queue();
-//                    } else if (parts[1].equalsIgnoreCase("commands")) {
-//                        if (config.getRedemptionCommands().isEmpty()) {
-//                            commandsList.addField("Redemption commands", "_No redemption commands found_", false);
-//                        } else {
-//                            commandsList.addField(
-//                                    "Redemption commands",
-//                                    config.getRedemptionCommands().stream()
-//                                            .map(command -> "`- " + command + "`")
-//                                            .collect(Collectors.joining("\n")), false);
-//                        }
-//                        if (config.getRemovalCommands().isEmpty()) {
-//                            commandsList.addField("Removal commands", "_No removal commands found_", false);
-//                        } else {
-//                            commandsList.addField(
-//                                    "Removal commands",
-//                                    config.getRemovalCommands().stream()
-//                                            .map(command -> "`- " + command + "`")
-//                                            .collect(Collectors.joining("\n")), false);
-//                        }
-//                        event.getChannel().sendMessageEmbeds(commandsList.build()).queue();
-//                    } else {
-//                        event.getChannel().sendMessage(new MessageCreateBuilder().addContent(":warning: List not found! Please use `!nitro-list <boosters|bans|commands>`").build()).queue();
-//                    }
-//                } else {
-//                    event.getChannel().sendMessage(new MessageCreateBuilder().addContent(":warning: Incorrect syntax! Please use `!nitro-list <boosters|bans|commands>`").build()).queue();
-//                }
-//            }
-//        }
-//    }
 }

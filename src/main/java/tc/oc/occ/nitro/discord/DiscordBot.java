@@ -48,14 +48,14 @@ public class DiscordBot {
           logger.info("Discord Bot (NitroCloudy) is now active!");
           api.getGuildById(config.getServer()).updateCommands().addCommands(
                   Commands.slash("help", "List commands for the bot"),
-                  Commands.slash("redeem", "Redeem nitro perks for your account")
+                  Commands.slash("redeem", "Redeem Nitro perks for your account")
                           .addOption(OptionType.STRING, "username", "Your Minecraft username", true),
                   Commands.slash("config-reload", "Reload the config"),
-                  Commands.slash("list", "display list of active nitro boosters or the current commands in config")
+                  Commands.slash("list", "Display list of active Nitro boosters or the current commands in config")
                           .addOption(OptionType.STRING, "list", "Which list to display", true, true),
-                  Commands.slash("remove", "Remove nitro perks"),
-                  Commands.slash("force-remove", "Remove nitro perk from user")
-                          .addOption(OptionType.USER, "user", "User to remove nitro perks from", true)
+                  Commands.slash("remove", "Remove Nitro perks"),
+                  Commands.slash("force-remove", "Remove Nitro perk from user")
+                          .addOption(OptionType.USER, "user", "User to remove Nitro perks from", true)
           ).queue();
       } catch (Exception e) {
           logger.info("Failed to login to Discord:" + e.getMessage());
