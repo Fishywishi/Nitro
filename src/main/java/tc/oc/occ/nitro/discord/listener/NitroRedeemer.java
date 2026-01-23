@@ -1,5 +1,6 @@
 package tc.oc.occ.nitro.discord.listener;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -22,13 +23,13 @@ public class NitroRedeemer extends NitroListener  {
         if (event.getName().equals("redeem")) {
             OptionMapping messageOption = event.getOption("username");
             if (messageOption == null ) return; // Don't need bot to respond because Discord forces input from user.
-            User user = event.getUser();
-            if (!isNitro(user)) {
+            Member member = event.getMember();
+            if (!isNitro(member)) {
                 event.reply(":no_entry_sign: You are not allowed to use this command! If you believe this is a mistake, contact a staff member.").setEphemeral(true).queue();
                 return;
             }
-            String discordUsername = user.getName();
-            String discordID = user.getId();
+            String discordUsername = member.getUser().getName();
+            String discordID = member.getId();
             if (config.getUser(discordID).isPresent()) {
                 NitroUser nitroUser = config.getUser(discordID).get();
                 event.reply(":no_entry_sign: Your Nitro Boosting privileges have already been claimed for "

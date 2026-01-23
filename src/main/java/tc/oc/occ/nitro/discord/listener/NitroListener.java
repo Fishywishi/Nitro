@@ -1,5 +1,6 @@
 package tc.oc.occ.nitro.discord.listener;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -18,9 +19,9 @@ public abstract class NitroListener extends ListenerAdapter {
     this.api = api;
   }
 
-  protected boolean isNitro(User user) {
+  protected boolean isNitro(Member user) {
     if (api.getServer() != null) {
-      List<Role> roles = user.getJDA().getRoles();
+      List<Role> roles = user.getRoles();
       return roles.stream().anyMatch(this::isNitro);
     }
     return false;

@@ -71,7 +71,7 @@ public class NitroListener implements Listener {
             + parts[0]
             + "` (`"
             + parts[1]
-            + "`) is no longer boosting the server.");
+            + "`) is no longer receiving Nitro perks.");
     // Announce in console that the user has lost nitro
     Bukkit.getConsoleSender()
         .sendMessage(

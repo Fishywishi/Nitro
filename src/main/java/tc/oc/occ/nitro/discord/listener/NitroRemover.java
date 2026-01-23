@@ -1,5 +1,6 @@
 package tc.oc.occ.nitro.discord.listener;
 
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -19,19 +20,19 @@ public class NitroRemover extends NitroListener{
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         if (event.getName().equals("remove")) {
-            User user = event.getUser();
-            if (!isNitro(user)) {
+            Member member = event.getMember();
+            if (!isNitro(member)) {
                 event.reply(":no_entry_sign: You are not allowed to use this command! If you believe this is a mistake, contact a staff member.").setEphemeral(true).queue();
                 return;
             }
-            String discordID = user.getId();
+            String discordID = member.getId();
             if (!config.getUser(discordID).isPresent()) {
                 event.reply(":no_entry_sign: You have not yet redeemed your Nitro Boosting perks. Use `/redeem` to claim them! For more information, use `/help`.").setEphemeral(true).queue();
                 return;
             }
             NitroUser nitroUser = config.getUser(discordID).get();
             NitroCloudy.get().callSyncEvent(new NitroUserRemoveEvent(nitroUser));
-            event.reply(":white_check_mark: " + user.getAsMention() + " You have removed Nitro Boosting privileges from `" + nitroUser.getMinecraftUsername() + "` (`" + nitroUser.getPlayerId().toString() + "`). You may use `/redeem` to redeem them again.").setEphemeral(true).queue();
+            event.reply(":white_check_mark: " + member.getAsMention() + " You have removed Nitro Boosting privileges from `" + nitroUser.getMinecraftUsername() + "` (`" + nitroUser.getPlayerId().toString() + "`). You may use `/redeem` to redeem them again.").setEphemeral(true).queue();
         } else if (event.getName().equals("force-remove")){
             OptionMapping messageOption = event.getOption("user");
             if (messageOption == null) return;
