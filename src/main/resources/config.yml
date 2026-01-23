@@ -6,7 +6,7 @@ server: "" # ID of Discord server
 nitro-role: "" # ID of the Nitro role
 
 channel-alerts: "" # ID of channel where logs from bot are sent
-channel-main: "" # ID of channel where command can be used
+channel-main: "" # ID of channel where bot alerts new Nitro users to redeem perks
 channel-staff: "" # ID of channel where staff commands can be used
 
 # List of redemption commands, executed when the user redeems Nitro privileges

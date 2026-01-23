@@ -86,7 +86,7 @@ When creating the bot that will be linked to Nitro's plugin `.jar`, be sure to t
    - The ID of the Nitro Booster role.
      - This role can be any role, not necessarily the legitimate "Nitro Booster" role.
    - The ID of the channel in which logs will be sent.
-   - The ID of the channel in which users can redeem/remove Nitro Boosting privileges.
+   - The ID of the channel in which the bot will alert new Nitro users to redeem their perks.
    - The ID of the channel in which staff members can use the management commands.
    - The command(s) to be executed on the Minecraft server once a user redeems privileges.
    - The command(s) to be executed on the Minecraft server once a user stops boosting the Discord server.
@@ -105,7 +105,7 @@ server: ""      # ID of discord server
 nitro-role: ""  # ID of the nitro role
 
 channel-alerts: ""   # ID of channel where logs from bot are sent
-channel-main: ""     # ID of channel where command can be used
+channel-main: ""     # # ID of channel where bot alerts new Nitro users to redeem perks
 channel-staff: ""   # ID of channel where staff can use management commands
 
 # List of redemption commands, executed when the user boosts the server
