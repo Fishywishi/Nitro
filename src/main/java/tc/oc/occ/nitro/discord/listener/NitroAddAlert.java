@@ -14,14 +14,13 @@ public class NitroAddAlert extends NitroListener {
 
     @Override
     public void onGuildMemberRoleAdd(@NotNull GuildMemberRoleAddEvent event) {
-      for(Role r : event.getRoles()) {
-          if(isNitro(r)) {
-              api.sendMessage(
-                      ":tada: Thanks for boosting the server, "
-                              + event.getMember().getUser().getAsMention()
-                              + "! Use `/redeem <Minecraft username>` to claim your in-game privileges. If you need assistance, use `/help` or contact a staff member.",
-                      false);
-          }
-      }
+        Role nitroRole = event.getGuild().getRoleById(config.getNitroRole());
+        if (event.getRoles().contains(nitroRole)) {
+            api.sendMessage(
+                    ":tada: Thanks for boosting the server, "
+                            + event.getMember().getUser().getAsMention()
+                            + "! Use `/redeem <Minecraft username>` to claim your in-game privileges. If you need assistance, use `/help` or contact a staff member.",
+                    false);
+        }
   }
 }

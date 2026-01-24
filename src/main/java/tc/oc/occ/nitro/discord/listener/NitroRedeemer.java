@@ -39,18 +39,22 @@ public class NitroRedeemer extends NitroListener  {
                 return;
             }
             String minecraftUsername = messageOption.getAsString();
+            if (config.getUsers().stream().anyMatch(user -> user.getMinecraftUsername().equalsIgnoreCase(minecraftUsername))) {
+                event.reply(":no_entry_sign: This Minecraft username is already receiving nitro perks!").setEphemeral(true).queue();
+                return;
+            }
             WebUtils.getUUID(minecraftUsername).thenAcceptAsync(uuid -> {
-                if (uuid == null) {
-                    event.reply(":warning: Unable to find UUID for provided Minecraft username!").setEphemeral(true).setEphemeral(true).queue();
-                    return;
-                }
-                NitroUser nitro = config.addNitro(discordUsername, discordID, minecraftUsername, uuid);
-                NitroCloudy.get().callSyncEvent(new NitroUserAddEvent(nitro));
-                event.reply(":white_check_mark: "
-                        + " Your Nitro Boosting privileges have been claimed for `"
-                        + nitro.getMinecraftUsername()
-                        + "` (`" + nitro.getPlayerId().toString()
-                        + "`). If something went wrong, or you're missing in-game perks, contact a staff member. Thanks for boosting the server!").setEphemeral(true).queue();
+            if (uuid == null) {
+                event.reply(":warning: Unable to find UUID for provided Minecraft username!").setEphemeral(true).setEphemeral(true).queue();
+                return;
+            }
+            NitroUser nitro = config.addNitro(discordUsername, discordID, minecraftUsername, uuid);
+            NitroCloudy.get().callSyncEvent(new NitroUserAddEvent(nitro));
+            event.reply(":white_check_mark: "
+                    + " Your Nitro Boosting privileges have been claimed for `"
+                    + nitro.getMinecraftUsername()
+                    + "` (`" + nitro.getPlayerId().toString()
+                    + "`). If something went wrong, or you're missing in-game perks, contact a staff member. Thanks for boosting the server!").setEphemeral(true).queue();
 
             });
         }
