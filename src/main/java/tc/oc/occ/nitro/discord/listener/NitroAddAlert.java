@@ -1,6 +1,5 @@
 package tc.oc.occ.nitro.discord.listener;
 
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRoleAddEvent;
 import org.jetbrains.annotations.NotNull;
 import tc.oc.occ.nitro.NitroConfig;
@@ -14,13 +13,13 @@ public class NitroAddAlert extends NitroListener {
 
     @Override
     public void onGuildMemberRoleAdd(@NotNull GuildMemberRoleAddEvent event) {
-        Role nitroRole = event.getGuild().getRoleById(config.getNitroRole());
-        if (event.getRoles().contains(nitroRole)) {
+        if(event.getMember().getRoles().contains(event.getGuild().getRoleById(config.getNitroRole()))) {
             api.sendMessage(
                     ":tada: Thanks for boosting the server, "
                             + event.getMember().getUser().getAsMention()
                             + "! Use `/redeem <Minecraft username>` to claim your in-game privileges. If you need assistance, use `/help` or contact a staff member.",
                     false);
         }
+
   }
 }
