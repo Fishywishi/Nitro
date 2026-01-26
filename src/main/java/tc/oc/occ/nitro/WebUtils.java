@@ -3,59 +3,43 @@ package tc.oc.occ.nitro;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class WebUtils {
+  private static final String USERNAME_API = "https://api.mojang.com/minecraft/profile/lookup/name/";
 
-  private static final String USERNAME_API = "https://api.ashcon.app/mojang/v2/user/";;
-
-  public static CompletableFuture<UUID> getUUID(String input) {
-    return getProfile(input)
-        .thenApplyAsync(
-            profile -> {
-              String uuid = profile.get("uuid").getAsString();
-              return UUID.fromString(uuid);
-            });
-  }
-
-  private static CompletableFuture<JsonObject> getProfile(String input) {
-    return CompletableFuture.supplyAsync(
-        () -> {
-          JsonObject obj = null;
-          HttpURLConnection url;
-          try {
-            url =
-                (HttpURLConnection)
-                    new URL(USERNAME_API + Preconditions.checkNotNull(input)).openConnection();
-
-            url.setRequestMethod("GET");
-            url.setRequestProperty("User-Agent", "Nitro");
-            url.setRequestProperty("Accept", "application/json");
-            url.setInstanceFollowRedirects(true);
-            url.setConnectTimeout(10000);
-            url.setReadTimeout(10000);
-
-            StringBuilder data = new StringBuilder();
-            try (final BufferedReader br =
-                new BufferedReader(
-                    new InputStreamReader(url.getInputStream(), StandardCharsets.UTF_8))) {
-              String line;
-              while ((line = br.readLine()) != null) {
-                data.append(line.trim());
-              }
-              obj = new Gson().fromJson(data.toString(), JsonObject.class);
+    public static UUID getUUID(String username) {
+        try {
+            URL urlOBJ = new URI(USERNAME_API + Preconditions.checkNotNull(username)).toURL();
+            HttpsURLConnection connection = (HttpsURLConnection) urlOBJ.openConnection();
+            connection.setRequestMethod("GET");
+            if (connection.getResponseCode() == HttpsURLConnection.HTTP_OK) {
+                StringBuilder sb = new StringBuilder();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+                JsonObject json = new Gson().fromJson(sb.toString(), JsonObject.class);
+                String uuid = new StringBuilder(json.get("id").getAsString())
+                        .insert(20, '-')
+                        .insert(16, '-')
+                        .insert(12, '-')
+                        .insert(8, '-')
+                        .toString();
+                // Thank you to Mojang for not having an endpoint with the dashes in the UUID
+                // A further thank you to Java for not accepting Strings missing the dashes into UUID.fromString()
+                return UUID.fromString(uuid);
             }
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-          return obj;
-        });
-  }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
