@@ -29,7 +29,8 @@ public class NitroList extends NitroListener  {
                 .setDescription("List of redemption/removal commands found in the configuration file.");
         if (event.getName().equals("list")) {
             if (!event.getChannelId().equals(config.getStaffChannel())) {
-                event.reply(":warning: Run this command in staff channel!").queue();
+                event.reply(":warning: Run this command in staff channel!").setEphemeral(true).queue();
+                return;
             }
             OptionMapping optionMapping = event.getOption("list");
             if (optionMapping == null) return;
