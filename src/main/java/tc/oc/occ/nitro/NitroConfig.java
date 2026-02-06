@@ -15,6 +15,7 @@ public class NitroConfig {
   private String token;
   private String server;
   private String nitroRole;
+  private String nitroBanRole;
 
   private List<NitroUser> nitroUsers;
 
@@ -34,6 +35,7 @@ public class NitroConfig {
     this.token = config.getString("token");
     this.server = config.getString("server");
     this.nitroRole = config.getString("nitro-role");
+    this.nitroBanRole = config.getString("nitro-ban-role");
     this.alertChannel = config.getString("channel-alerts");
     this.mainChannel = config.getString("channel-main");
     this.staffChannel = config.getString("channel-staff");
@@ -63,6 +65,10 @@ public class NitroConfig {
   public String getNitroRole() {
     return nitroRole;
   }
+
+  public String getNitroBanRole() {
+      return nitroBanRole;
+    }
 
   public String getAlertChannel() {
     return alertChannel;

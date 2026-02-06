@@ -6,11 +6,13 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import tc.oc.occ.nitro.NitroConfig;
 import tc.oc.occ.nitro.discord.listener.*;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -26,6 +28,8 @@ public class DiscordBot {
     this.logger = logger;
     reload();
   }
+
+  OptionData[] list = { new OptionData(OptionType.USER, "user", "User to ban", true), new OptionData(OptionType.STRING, "duration", "Duration of Ban", false)};
 
   public NitroConfig getConfig() {
     return config;
@@ -47,6 +51,7 @@ public class DiscordBot {
           api.addEventListener(new NitroReload(this, getConfig()));
           api.addEventListener(new NitroAddAlert(this, getConfig()));
           api.addEventListener(new NitroRemoveAlert(this, getConfig()));
+          api.addEventListener(new NitroPunishmentListener(this, getConfig()));
           logger.info("Discord Bot (NitroBot) is now active!");
           api.getGuildById(config.getServer()).updateCommands().addCommands(
                   Commands.slash("help", "List commands for the bot"),
@@ -57,7 +62,11 @@ public class DiscordBot {
                           .addOption(OptionType.STRING, "list", "Which list to display", true, true),
                   Commands.slash("remove", "Remove Nitro perks from connected Minecraft account"),
                   Commands.slash("revoke", "Forcefully remove in-game Nitro perks from a user")
-                          .addOption(OptionType.USER, "user", "User to revoke Nitro perks from", true)
+                          .addOption(OptionType.USER, "user", "User to revoke Nitro perks from", true),
+                  Commands.slash("nitro-ban", "Permit user from claiming Nitro perks,")
+                          .addOptions(list),
+                  Commands.slash("nitro-pardon", "Pardon user allowing them to claim Nitro perks once again")
+                          .addOption(OptionType.USER, "user", "User to pardon")
           ).queue();
       } catch (Exception e) {
           logger.info("Failed to login to Discord:" + e.getMessage());

@@ -31,4 +31,16 @@ public abstract class NitroListener extends ListenerAdapter {
     return role.getId().equalsIgnoreCase(config.getNitroRole());
   }
 
+  protected boolean isNitroBanned(Member member) {
+      if (api.getServer() != null) {
+          List<Role> roles = member.getRoles();
+          return roles.stream().anyMatch(this::isNitroBanned);
+      }
+      return false;
+  }
+
+  protected boolean isNitroBanned(Role role) {
+      return role.getId().equalsIgnoreCase(config.getNitroBanRole());
+  }
+
 }
